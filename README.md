@@ -1,1 +1,1 @@
-# java_car_rental_project
+In this project car rental system using java oops and GUI for better user experience.
