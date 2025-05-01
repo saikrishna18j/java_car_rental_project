@@ -1,6 +1,3 @@
-Here is the modified full code where "1 day" is shown instead of "1 days" in the rental history, as per your request.
-
-```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
