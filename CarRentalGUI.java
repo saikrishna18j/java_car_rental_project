@@ -205,6 +205,11 @@ public class CarRentalGUI extends JFrame {
             return;
         }
 
+        if (carId == null) {
+            JOptionPane.showMessageDialog(this, "No car selected to rent.");
+            return;
+        }
+
         try {
             days = Integer.parseInt(daysField.getText().trim());
             if (days <= 0) throw new NumberFormatException();
@@ -213,14 +218,16 @@ public class CarRentalGUI extends JFrame {
             return;
         }
 
+        String formattedName = capitalizeName(name);
+
         for (Car car : carList) {
             if (car.getCarId().equals(carId) && car.isAvailable()) {
                 double total = car.calculatePrice(days);
-                car.rent(name);
+                car.rent(formattedName);
 
-                rentalHistoryList.add(new RentalHistory(name, car.getDetails(), days, total));
+                rentalHistoryList.add(new RentalHistory(formattedName, car.getDetails(), days, total));
 
-                JOptionPane.showMessageDialog(this, name + " rented " + car.getDetails() + " for " + days + " days.\nTotal: \u20B9" + total);
+                JOptionPane.showMessageDialog(this, formattedName + " rented " + car.getDetails() + " for " + days + " days.\nTotal: \u20B9" + total);
                 updateDropdowns();
                 refreshCarStatus();
                 refreshHistory();
@@ -243,19 +250,25 @@ public class CarRentalGUI extends JFrame {
             return;
         }
 
+        if (carId == null) {
+            JOptionPane.showMessageDialog(this, "No car selected to return.");
+            return;
+        }
+
         for (Car car : carList) {
             if (car.getCarId().equals(carId) && !car.isAvailable()) {
-                if (!car.getRentedBy().equals(name)) {
+                if (!car.getRentedBy().equalsIgnoreCase(name)) {
                     JOptionPane.showMessageDialog(this, "This car was not rented by " + name + ". It was rented by " + car.getRentedBy() + ".");
                     return;
                 }
 
+                String formattedName = capitalizeName(name);
                 String details = car.getDetails();
                 car.returnCar();
 
-                rentalHistoryList.add(new RentalHistory(name, details)); // Add return entry
+                rentalHistoryList.add(new RentalHistory(formattedName, details)); // Add return entry
 
-                JOptionPane.showMessageDialog(this, "Car " + details + " has been returned by " + name + ".");
+                JOptionPane.showMessageDialog(this, "Car " + details + " has been returned by " + formattedName + ".");
                 updateDropdowns();
                 refreshCarStatus();
                 refreshHistory();
@@ -264,6 +277,11 @@ public class CarRentalGUI extends JFrame {
         }
 
         JOptionPane.showMessageDialog(this, "Please select a rented car to return.");
+    }
+
+    private String capitalizeName(String name) {
+        if (name == null || name.isEmpty()) return name;
+        return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
     public static void main(String[] args) {
