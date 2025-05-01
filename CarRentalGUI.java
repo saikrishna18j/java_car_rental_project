@@ -1,3 +1,6 @@
+Here is the modified full code where "1 day" is shown instead of "1 days" in the rental history, as per your request.
+
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -83,7 +86,9 @@ class RentalHistory {
         if (isReturn) {
             return customerName + " returned " + carDetails;
         } else {
-            return customerName + " rented " + carDetails + " for " + days + " days. Total: \u20B9" + totalCost;
+            // Conditional check for singular/plural days
+            String dayLabel = (days == 1) ? "day" : "days";
+            return customerName + " rented " + carDetails + " for " + days + " " + dayLabel + ". Total: \u20B9" + totalCost;
         }
     }
 }
@@ -227,7 +232,7 @@ public class CarRentalGUI extends JFrame {
 
                 rentalHistoryList.add(new RentalHistory(formattedName, car.getDetails(), days, total));
 
-                JOptionPane.showMessageDialog(this, formattedName + " rented " + car.getDetails() + " for " + days + " days.\nTotal: \u20B9" + total);
+                JOptionPane.showMessageDialog(this, formattedName + " rented " + car.getDetails() + " for " + days + " " + (days == 1 ? "day" : "days") + ".\nTotal: \u20B9" + total);
                 updateDropdowns();
                 refreshCarStatus();
                 refreshHistory();
@@ -289,5 +294,3 @@ public class CarRentalGUI extends JFrame {
             CarRentalGUI gui = new CarRentalGUI();
             gui.setVisible(true);
         });
-    }
-}
