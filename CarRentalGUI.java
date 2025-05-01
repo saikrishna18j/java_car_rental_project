@@ -291,3 +291,5 @@ public class CarRentalGUI extends JFrame {
             CarRentalGUI gui = new CarRentalGUI();
             gui.setVisible(true);
         });
+    }
+}
